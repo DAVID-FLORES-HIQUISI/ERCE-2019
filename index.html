@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuestionario Interactivo ERCE 2019 - UNESCO</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col justify-between selection:bg-blue-600 selection:text-white">
+
+    <!-- Header Principal -->
+    <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-30 shadow-md">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center font-black text-xl shadow-inner">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold leading-tight">ERCE 2019 <span class="text-xs bg-blue-500/30 text-blue-300 px-2 py-0.5 rounded-full border border-blue-400/30 font-medium">UNESCO / LLECE</span></h1>
+                    <p class="text-xs text-slate-400 hidden sm:block">Evaluación de Aprendizajes Fundamentales en América Latina y el Caribe</p>
+                </div>
+            </div>
+            
+            <!-- Quick Actions Header -->
+            <div id="headerStats" class="flex items-center gap-4">
+                <button onclick="confirmRestart()" title="Reiniciar Evaluación" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition flex items-center gap-1.5 border border-slate-700">
+                    <i class="fa-solid fa-rotate-right text-blue-400"></i>
+                    <span class="hidden sm:inline">Reiniciar</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- pantalla 1: BIENVENIDA / INICIO -->
+        <section id="welcomeScreen" class="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 sm:p-10 max-w-3xl mx-auto my-4 animate-fade-in">
+            <div class="text-center space-y-4">
+                <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-blue-50 text-blue-600 text-4xl mb-2 shadow-sm border border-blue-100">
+                    <i class="fa-solid fa-book-open-reader"></i>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Cuestionario Evaluativo Interactivo</h2>
+                <p class="text-slate-600 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
+                    Ponga a prueba sus conocimientos pedagógicos sobre los hallazgos del estudio <strong>ERCE 2019</strong>. Responda a las 30 preguntas de opción múltiple para obtener una retroalimentación detallada.
+                </p>
+            </div>
+
+            <!-- Reglas y características -->
+            <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 flex items-start gap-3">
+                    <div class="text-blue-600 text-lg mt-0.5"><i class="fa-solid fa-shuffle"></i></div>
+                    <div>
+                        <h4 class="font-bold text-sm text-slate-900">Orden Aleatorio</h4>
+                        <p class="text-xs text-slate-500 mt-0.5">Las 30 preguntas se barajan aleatoriamente en cada sesión de evaluación.</p>
+                    </div>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 flex items-start gap-3">
+                    <div class="text-blue-600 text-lg mt-0.5"><i class="fa-solid fa-eye-slash"></i></div>
+                    <div>
+                        <h4 class="font-bold text-sm text-slate-900">Sin Solucionario Previo</h4>
+                        <p class="text-xs text-slate-500 mt-0.5">Las respuestas correctas y justificaciones se revelan al finalizar.</p>
+                    </div>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 flex items-start gap-3">
+                    <div class="text-blue-600 text-lg mt-0.5"><i class="fa-solid fa-list-check"></i></div>
+                    <div>
+                        <h4 class="font-bold text-sm text-slate-900">Navegación Libres</h4>
+                        <p class="text-xs text-slate-500 mt-0.5">Avance, retroceda o salte a cualquier pregunta con la rejilla de estado.</p>
+                    </div>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 flex items-start gap-3">
+                    <div class="text-blue-600 text-lg mt-0.5"><i class="fa-solid fa-chart-line"></i></div>
+                    <div>
+                        <h4 class="font-bold text-sm text-slate-900">Informe Pedagógico</h4>
+                        <p class="text-xs text-slate-500 mt-0.5">Obtenga calificación sobre 30, porcentaje, nivel y desglose con justificación.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 text-center">
+                <button onclick="startQuiz()" class="w-full sm:w-auto px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 transition transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 mx-auto">
+                    <span>Comenzar Evaluación</span>
+                    <i class="fa-solid fa-arrow-right text-sm"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- PANTALLA 2: EXAMEN EN PROCESO -->
+        <section id="quizScreen" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-6 animate-fade-in">
+            
+            <!-- Columna Principal: Pregunta Actual -->
+            <div class="lg:col-span-8 flex flex-col gap-6">
+                
+                <!-- Card Pregunta -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 sm:p-8 flex flex-col justify-between min-h-[420px]">
+                    <div>
+                        <!-- Header de la Pregunta -->
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-6">
+                            <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
+                                <i class="fa-regular fa-circle-question"></i> Pregunta <span id="currentQNum">1</span> de 30
+                            </span>
+                            <span id="answeredBadge" class="text-xs font-medium text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full">
+                                Pendiente
+                            </span>
+                        </div>
+
+                        <!-- Texto de la pregunta -->
+                        <h3 id="questionText" class="text-slate-900 text-lg sm:text-xl font-bold leading-relaxed mb-6">
+                            Cargando pregunta...
+                        </h3>
+
+                        <!-- Opciones de respuesta -->
+                        <div id="optionsContainer" class="space-y-3">
+                            <!-- Opciones inyectadas por JS -->
+                        </div>
+                    </div>
+
+                    <!-- Botones de Navegación -->
+                    <div class="flex items-center justify-between border-t border-slate-100 pt-6 mt-8">
+                        <button id="btnPrev" onclick="prevQuestion()" class="px-4 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-semibold hover:bg-slate-50 transition text-sm flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed">
+                            <i class="fa-solid fa-chevron-left text-xs"></i> Anterior
+                        </button>
+                        
+                        <div class="flex gap-2">
+                            <button id="btnNext" onclick="nextQuestion()" class="px-5 py-2.5 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition text-sm shadow-md shadow-blue-500/20 flex items-center gap-2">
+                                Siguiente <i class="fa-solid fa-chevron-right text-xs"></i>
+                            </button>
+                            <button id="btnSubmitExam" onclick="confirmFinishExam()" class="hidden px-5 py-2.5 rounded-xl bg-emerald-600 text-white font-semibold hover:bg-emerald-700 transition text-sm shadow-md shadow-emerald-600/20 flex items-center gap-2">
+                                <i class="fa-solid fa-check-double"></i> Finalizar y Evaluar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Columna Secundaria: Panel de Avance / Rejilla -->
+            <div class="lg:col-span-4 flex flex-col gap-6">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5 sm:p-6 sticky top-20">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-grid-2 text-blue-600"></i> Progreso General
+                        </h4>
+                        <span id="completionCounter" class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full">
+                            0 / 30
+                        </span>
+                    </div>
+
+                    <!-- Barra de Progreso -->
+                    <div class="w-full bg-slate-100 rounded-full h-2.5 mb-6 overflow-hidden">
+                        <div id="progressBar" class="bg-blue-600 h-2.5 rounded-full transition-all duration-300 w-0"></div>
+                    </div>
+
+                    <p class="text-xs text-slate-500 mb-3 font-medium">Haga clic en un número para navegar directamente:</p>
+
+                    <!-- Rejilla de 30 botones -->
+                    <div id="gridQuestions" class="grid grid-cols-5 sm:grid-cols-6 lg:grid-cols-5 gap-2 max-h-[300px] overflow-y-auto pr-1 custom-scrollbar">
+                        <!-- Botones inyectados por JS -->
+                    </div>
+
+                    <!-- Leyenda -->
+                    <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-around text-[11px] text-slate-500">
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded-full bg-blue-600 inline-block"></span> Actual
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span> Respondida
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded-full bg-slate-100 border border-slate-300 inline-block"></span> Pendiente
+                        </div>
+                    </div>
+
+                    <!-- Botón de Entrega Directa en Sidebar -->
+                    <div class="mt-5">
+                        <button onclick="confirmFinishExam()" class="w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-paper-plane text-emerald-400"></i> Entregar Evaluación Ahora
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- PANTALLA 3: RESULTADOS E INFORME FINAL -->
+        <section id="resultScreen" class="hidden space-y-8 animate-fade-in">
+            
+            <!-- Banner Resumen de Calificación -->
+            <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden">
+                <div id="resultBannerHeader" class="p-6 sm:p-10 text-white text-center relative overflow-hidden bg-gradient-to-r from-blue-700 via-indigo-700 to-blue-900">
+                    <div class="relative z-10 space-y-3">
+                        <span id="badgeLevel" class="inline-block px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest bg-white/20 backdrop-blur-md text-white border border-white/30">
+                            Cargando Nivel...
+                        </span>
+                        <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight" id="scoreText">0 / 30</h2>
+                        <p class="text-blue-100 font-medium text-sm sm:text-lg">Porcentaje total obtenido: <strong id="percentageText" class="text-white font-bold">0%</strong></p>
+                    </div>
+                </div>
+
+                <!-- Detalle del Diagnóstico Pedagógico -->
+                <div class="p-6 sm:p-8 bg-slate-50 border-b border-slate-200/80">
+                    <div class="max-w-3xl mx-auto text-center space-y-2">
+                        <h4 class="text-sm uppercase tracking-wider font-bold text-slate-400">Diagnóstico del Nivel de Conocimiento</h4>
+                        <h3 id="levelTitle" class="text-xl sm:text-2xl font-bold text-slate-800">Cargando...</h3>
+                        <p id="levelDescription" class="text-slate-600 text-sm leading-relaxed max-w-2xl mx-auto">
+                            Cargando retroalimentación...
+                        </p>
+                    </div>
+
+                    <!-- Escala Informativa -->
+                    <div class="mt-6 max-w-4xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
+                        <div class="p-2.5 rounded-xl border border-emerald-200 bg-emerald-50/50">
+                            <span class="block font-bold text-emerald-800">Excelente</span>
+                            <span class="text-slate-500">90% - 100% (27-30 pts)</span>
+                        </div>
+                        <div class="p-2.5 rounded-xl border border-blue-200 bg-blue-50/50">
+                            <span class="block font-bold text-blue-800">Bueno</span>
+                            <span class="text-slate-500">70% - 89% (21-26 pts)</span>
+                        </div>
+                        <div class="p-2.5 rounded-xl border border-amber-200 bg-amber-50/50">
+                            <span class="block font-bold text-amber-800">Regular</span>
+                            <span class="text-slate-500">50% - 69% (15-20 pts)</span>
+                        </div>
+                        <div class="p-2.5 rounded-xl border border-rose-200 bg-rose-50/50">
+                            <span class="block font-bold text-rose-800">Reforzamiento</span>
+                            <span class="text-slate-500">0% - 49% (0-14 pts)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Acciones de Resultados -->
+                <div class="p-4 bg-white flex flex-wrap items-center justify-center gap-4 border-t border-slate-100">
+                    <button onclick="startQuiz()" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-md transition flex items-center gap-2 text-sm">
+                        <i class="fa-solid fa-rotate-right"></i> Intentar de Nuevo (Nuevo Orden)
+                    </button>
+                    <button onclick="window.scrollTo({top: document.getElementById('reviewSection').offsetTop - 80, behavior: 'smooth'})" class="px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition flex items-center gap-2 text-sm">
+                        <i class="fa-solid fa-magnifying-glass"></i> Ver Solucionario Detallado
+                    </button>
+                </div>
+            </div>
+
+            <!-- Desglose Completo de Preguntas (Solucionario) -->
+            <div id="reviewSection" class="space-y-6 pt-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-xl font-extrabold text-slate-900">Revisión Detallada de Respuestas</h3>
+                        <p class="text-xs text-slate-500">Consulte las opciones marcadas, respuestas correctas y sus respectivas fundamentaciones oficiales.</p>
+                    </div>
+                    <div class="flex gap-2 text-xs">
+                        <button onclick="filterReview('all')" id="btnFilterAll" class="px-3 py-1.5 rounded-lg bg-slate-900 text-white font-bold">Todas (30)</button>
+                        <button onclick="filterReview('correct')" id="btnFilterCorrect" class="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 font-semibold hover:bg-slate-200">Correctas</button>
+                        <button onclick="filterReview('incorrect')" id="btnFilterIncorrect" class="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 font-semibold hover:bg-slate-200">Incorrectas</button>
+                    </div>
+                </div>
+
+                <!-- Lista de Preguntas con Feedback -->
+                <div id="reviewContainer" class="space-y-4">
+                    <!-- Inyectado dinámicamente por JS -->
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 text-xs py-6 mt-12">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <div>
+                <p class="font-semibold text-slate-300">Estudio Regional Comparativo y Explicativo (ERCE 2019)</p>
+                <p class="text-slate-500">Laboratorio Latinoamericano de Evaluación de la Calidad de la Educación (LLECE - UNESCOSantiago)</p>
+            </div>
+            <div class="text-slate-500">
+                <span>Herramienta de Evaluación Interactiva</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom Dialog Modal (Reemplazo seguro de alert/confirm) -->
+    <div id="customModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-100 animate-fade-in">
+            <div id="modalIconContainer" class="w-12 h-12 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-xl mb-4">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 id="modalTitle" class="text-lg font-bold text-slate-900 mb-2">¿Finalizar Evaluación?</h3>
+            <p id="modalMessage" class="text-sm text-slate-600 leading-relaxed mb-6">
+                Aún tienes preguntas sin responder. ¿Deseas entregar el examen de todos modos?
+            </p>
+            <div class="flex items-center justify-end gap-3">
+                <button id="modalCancelBtn" class="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 text-sm font-semibold transition">
+                    Cancelar
+                </button>
+                <button id="modalConfirmBtn" class="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-md transition">
+                    Confirmar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGICA JAVASCRIPT COMPLETA -->
+    <script>
+        // Data Máster Exacta de las 30 preguntas
+        const rawQuestionBank = [
+            {
+                id: 1,
+                question: "¿Qué significa la sigla ERCE?",
+                options: [
+                    "Evaluación Regional de Competencias Educativas.",
+                    "Estudio Regional Comparativo y Explicativo.",
+                    "Examen Regional de Calidad Educativa.",
+                    "Estudio de Rendimiento Curricular Escolar."
+                ],
+                correct: 1, // B (índice 1)
+                justification: "ERCE significa Estudio Regional Comparativo y Explicativo. Es una evaluación que mide los logros de aprendizaje de estudiantes de educación primaria en América Latina y el Caribe."
+            },
+            {
+                id: 2,
+                question: "¿Qué institución coordinó el ERCE 2019?",
+                options: [
+                    "Banco Mundial.",
+                    "UNICEF.",
+                    "Laboratorio Latinoamericano de Evaluación de la Calidad de la Educación (LLECE).",
+                    "Organización para la Cooperación y el Desarrollo Económicos (OCDE)."
+                ],
+                correct: 2, // C
+                justification: "El estudio fue coordinado por el LLECE, perteneciente a la Oficina Regional de Educación para América Latina y el Caribe de la UNESCO (OREALC/UNESCO Santiago)."
+            },
+            {
+                id: 3,
+                question: "¿Cuál fue el principal propósito del ERCE 2019?",
+                options: [
+                    "Evaluar exclusivamente el desempeño de los docentes.",
+                    "Determinar la cantidad de estudiantes matriculados en primaria.",
+                    "Clasificar a las escuelas según su infraestructura.",
+                    "Medir los logros de aprendizaje y generar información para mejorar la calidad educativa."
+                ],
+                correct: 3, // D
+                justification: "El ERCE proporciona evidencia sobre los aprendizajes de los estudiantes y los factores relacionados con sus resultados, para orientar decisiones y políticas educativas."
+            },
+            {
+                id: 4,
+                question: "¿En qué grados de educación primaria se aplicaron las pruebas del ERCE 2019?",
+                options: [
+                    "Primero y cuarto grado.",
+                    "Tercero y sexto grado.",
+                    "Segundo y quinto grado.",
+                    "Cuarto y sexto grado."
+                ],
+                correct: 1, // B
+                justification: "La evaluación se aplicó a estudiantes de tercero y sexto grado de educación primaria."
+            },
+            {
+                id: 5,
+                question: "¿Cuáles fueron las áreas evaluadas en tercero y sexto grado?",
+                options: [
+                    "Lectura, Escritura y Matemática.",
+                    "Ciencias Naturales, Historia y Geografía.",
+                    "Lenguaje, Educación Física y Música.",
+                    "Matemática, Ciencias Sociales y Tecnología."
+                ],
+                correct: 0, // A
+                justification: "El estudio evaluó Lectura, Escritura y Matemática en ambos grados. Ciencias se evaluó únicamente en sexto grado."
+            },
+            {
+                id: 6,
+                question: "¿Cuántos países participaron efectivamente en la evaluación ERCE 2019?",
+                options: [
+                    "10 países.",
+                    "12 países.",
+                    "16 países.",
+                    "20 países."
+                ],
+                correct: 2, // C
+                justification: "Participaron 16 países de América Latina y el Caribe."
+            },
+            {
+                id: 7,
+                question: "¿Qué países no participaron en la aplicación del ERCE 2019 debido a factores del contexto socioeconómico y político?",
+                options: [
+                    "Bolivia y Chile.",
+                    "Perú y Ecuador.",
+                    "Argentina y Uruguay.",
+                    "Brasil y Paraguay."
+                ],
+                correct: 0, // A
+                justification: "El documento señala expresamente que Bolivia y Chile no participaron en la evaluación debido a circunstancias del contexto socioeconómico y político."
+            },
+            {
+                id: 8,
+                question: "¿Con qué evaluación anterior son comparables los resultados del ERCE 2019?",
+                options: [
+                    "PISA 2018.",
+                    "TERCE 2013.",
+                    "TIMSS 2015.",
+                    "SERCE 2006."
+                ],
+                correct: 1, // B
+                justification: "Los resultados del ERCE 2019 son comparables con los del TERCE 2013, lo que permite analizar la evolución de los aprendizajes."
+            },
+            {
+                id: 9,
+                question: "¿Cuántos estudiantes aproximadamente participaron en el ERCE 2019?",
+                options: [
+                    "50.000 estudiantes.",
+                    "100.000 estudiantes.",
+                    "160.000 estudiantes.",
+                    "300.000 estudiantes."
+                ],
+                correct: 2, // C
+                justification: "El documento indica que aproximadamente 160.000 estudiantes de tercero y sexto grado respondieron las pruebas en una muestra representativa de alrededor de 4.000 escuelas."
+            },
+            {
+                id: 10,
+                question: "¿Qué instrumentos utilizó el ERCE 2019 para recoger información?",
+                options: [
+                    "Entrevistas individuales y observación de clases exclusivamente.",
+                    "Pruebas de evaluación de aprendizajes y cuestionarios de contexto.",
+                    "Encuestas nacionales y registros administrativos únicamente.",
+                    "Pruebas psicológicas y evaluaciones de desempeño docente."
+                ],
+                correct: 1, // B
+                justification: "El estudio empleó dos tipos de instrumentos: pruebas para evaluar los aprendizajes y cuestionarios de contexto para recoger información sobre estudiantes, familias, docentes y directores."
+            },
+            {
+                id: 11,
+                question: "¿Cuántos niveles de desempeño establece el ERCE 2019 para presentar los resultados?",
+                options: [
+                    "Dos niveles.",
+                    "Tres niveles.",
+                    "Cuatro niveles.",
+                    "Cinco niveles."
+                ],
+                correct: 2, // C
+                justification: "El estudio presenta cuatro niveles de desempeño, identificados como Nivel I, Nivel II, Nivel III y Nivel IV."
+            },
+            {
+                id: 12,
+                question: "¿Qué representan los cuatro niveles de desempeño del ERCE 2019?",
+                options: [
+                    "La clasificación de las escuelas según su infraestructura.",
+                    "Un continuo de creciente complejidad de los aprendizajes.",
+                    "La cantidad de estudiantes inscritos por grado.",
+                    "La clasificación de los docentes según sus años de experiencia."
+                ],
+                correct: 1, // B
+                justification: "Los niveles ordenan los logros de aprendizaje desde las habilidades más básicas hasta las más complejas."
+            },
+            {
+                id: 13,
+                question: "¿Qué habilidades se evalúan en el área de Lectura?",
+                options: [
+                    "Comprensión literal, inferencial y crítica.",
+                    "Escritura creativa, caligrafía y ortografía exclusivamente.",
+                    "Memorización, repetición y dictado.",
+                    "Expresión oral, pronunciación y dramatización."
+                ],
+                correct: 0, // A
+                justification: "La prueba de Lectura evalúa tres grupos de habilidades: comprensión literal, comprensión inferencial y comprensión crítica, además de la comprensión de diversos textos."
+            },
+            {
+                id: 14,
+                question: "¿Cuál es el enfoque principal de la evaluación de Matemática en el ERCE 2019?",
+                options: [
+                    "La memorización de fórmulas matemáticas.",
+                    "La repetición de ejercicios mecánicos.",
+                    "La resolución de problemas y la construcción de conocimientos mediante el análisis y la reflexión.",
+                    "La aplicación exclusiva de operaciones aritméticas básicas."
+                ],
+                correct: 2, // C
+                justification: "La evaluación de Matemática prioriza la resolución de problemas concretos y reales, así como la capacidad de analizar, reflexionar y descubrir estrategias."
+            },
+            {
+                id: 15,
+                question: "¿Cuál de los siguientes grupos contiene dominios de conocimiento evaluados en Matemática?",
+                options: [
+                    "Historia, geografía, ciudadanía y cultura.",
+                    "Números y operaciones, geometría, magnitudes y medición, estadística, patrones y álgebra.",
+                    "Ecología, medio ambiente, energía y materia.",
+                    "Lectura, escritura, comunicación y expresión oral."
+                ],
+                correct: 1, // B
+                justification: "El ERCE 2019 contempla cinco dominios en Matemática: números y operaciones; geometría; magnitudes y medición; estadística; patrones y álgebra."
+            },
+            {
+                id: 16,
+                question: "¿En qué grado se evaluó el área de Ciencias?",
+                options: [
+                    "Primero de primaria.",
+                    "Tercero de primaria.",
+                    "Quinto de primaria.",
+                    "Sexto de primaria."
+                ],
+                correct: 3, // D
+                justification: "La prueba de Ciencias fue aplicada únicamente a estudiantes de sexto grado de educación primaria."
+            },
+            {
+                id: 17,
+                question: "¿Cuál de los siguientes contenidos corresponde a uno de los dominios evaluados en Ciencias?",
+                options: [
+                    "Cuerpo humano y salud.",
+                    "Literatura universal.",
+                    "Formación ciudadana.",
+                    "Historia de América Latina."
+                ],
+                correct: 0, // A
+                justification: "Entre los cinco dominios de Ciencias se encuentran cuerpo humano y salud; ciencia, tecnología y sociedad; la Tierra y el sistema solar; energía y materia; seres vivos, ecología y medio ambiente."
+            },
+            {
+                id: 18,
+                question: "¿Qué habilidades socioemocionales fueron consideradas en el módulo aplicado a estudiantes de sexto grado?",
+                options: [
+                    "Liderazgo, competitividad y disciplina deportiva.",
+                    "Empatía, autorregulación escolar y apertura a la diversidad.",
+                    "Memorización, concentración y velocidad lectora.",
+                    "Creatividad artística, expresión musical y coordinación motora."
+                ],
+                correct: 1, // B
+                justification: "Por primera vez se incorporó la medición de habilidades socioemocionales: empatía, autorregulación escolar y apertura a la diversidad."
+            },
+            {
+                id: 19,
+                question: "¿Qué porcentaje aproximado de estudiantes de la región alcanzó al menos el Nivel III en Lectura de sexto grado?",
+                options: [
+                    "10,5 %.",
+                    "20,7 %.",
+                    "31,2 %.",
+                    "55,7 %."
+                ],
+                correct: 2, // C
+                justification: "El documento señala que el 31,2 % de los estudiantes de sexto grado alcanzó al menos el Nivel III en Lectura."
+            },
+            {
+                id: 20,
+                question: "¿Qué porcentaje de estudiantes de sexto grado alcanzó el Nivel III en Matemática a nivel regional?",
+                options: [
+                    "17,4 %.",
+                    "31,2 %.",
+                    "40,5 %.",
+                    "52,3 %."
+                ],
+                correct: 0, // A
+                justification: "Solo el 17,4 % de los estudiantes de sexto grado alcanzó el Nivel III en Matemática, uno de los mayores desafíos regionales."
+            },
+            {
+                id: 21,
+                question: "¿Qué porcentaje aproximado de estudiantes de sexto grado alcanzó al menos el Nivel III en Ciencias?",
+                options: [
+                    "10,2 %.",
+                    "20,7 %.",
+                    "31,2 %.",
+                    "52,3 %."
+                ],
+                correct: 1, // B
+                justification: "El informe indica que solamente el 20,7 % de los estudiantes de sexto grado alcanzó al menos el Nivel III en Ciencias."
+            },
+            {
+                id: 22,
+                question: "¿Qué tendencia general se observó al comparar los resultados del TERCE 2013 con el ERCE 2019?",
+                options: [
+                    "Un crecimiento significativo en todas las áreas y grados.",
+                    "Una disminución significativa en todos los países.",
+                    "No se evidenciaron avances significativos en el promedio regional de las áreas y grados evaluados.",
+                    "Todos los países alcanzaron los niveles mínimos esperados."
+                ],
+                correct: 2, // C
+                justification: "El informe concluye que, en promedio, la región no evidenció avances significativos en ninguna de las áreas o grados evaluados."
+            },
+            {
+                id: 23,
+                question: "Según las conclusiones del informe, ¿qué porcentaje de estudiantes de tercer grado no alcanzó el nivel mínimo de competencias en Lectura y Matemática?",
+                options: [
+                    "Más del 10 %.",
+                    "Más del 20 %.",
+                    "Más del 30 %.",
+                    "Más del 40 %."
+                ],
+                correct: 3, // D
+                justification: "El documento señala que más del 40 % de los estudiantes de tercer grado no alcanzó el nivel mínimo de competencias en Lectura y Matemática."
+            },
+            {
+                id: 24,
+                question: "¿Qué situación se identificó respecto a los estudiantes de sexto grado en Lenguaje, Matemática y Ciencias?",
+                options: [
+                    "Más del 60 % no alcanzó el nivel mínimo de competencias.",
+                    "Más del 80 % alcanzó los niveles superiores.",
+                    "Todos los estudiantes lograron las competencias esperadas.",
+                    "Más del 70 % superó el Nivel III."
+                ],
+                correct: 0, // A
+                justification: "El informe advierte que más del 60 % de los estudiantes de sexto grado no alcanzó el nivel mínimo de competencias."
+            },
+            {
+                id: 25,
+                question: "¿Cuál es uno de los factores que presenta una alta asociación con los resultados de aprendizaje?",
+                options: [
+                    "El color de las aulas.",
+                    "El nivel socioeconómico de los estudiantes y de sus escuelas.",
+                    "La ubicación del mobiliario escolar.",
+                    "La cantidad de actividades recreativas exclusivamente."
+                ],
+                correct: 1, // B
+                justification: "El ERCE 2019 identifica una fuerte asociación entre el nivel socioeconómico de los estudiantes y de sus escuelas con los resultados educativos."
+            },
+            {
+                id: 26,
+                question: "¿Qué relación encontró el estudio entre la repitencia escolar y los resultados de aprendizaje?",
+                options: [
+                    "La repitencia está asociada con mejores resultados en todas las áreas.",
+                    "La repitencia no tiene ninguna relación con el aprendizaje.",
+                    "La repitencia se asocia negativamente con los resultados de aprendizaje.",
+                    "La repitencia garantiza que los estudiantes alcancen los niveles superiores."
+                ],
+                correct: 2, // C
+                justification: "Los resultados muestran una asociación negativa entre la repitencia y el rendimiento académico."
+            },
+            {
+                id: 27,
+                question: "¿Qué relación se identificó entre el involucramiento de las familias en el aprendizaje y los resultados educativos?",
+                options: [
+                    "El involucramiento familiar se asocia positivamente con los resultados de aprendizaje.",
+                    "La participación familiar perjudica el rendimiento escolar.",
+                    "La participación familiar no influye en ningún área.",
+                    "El involucramiento familiar reemplaza el trabajo pedagógico del docente."
+                ],
+                correct: 0, // A
+                justification: "El informe identifica una asociación positiva entre el involucramiento parental en el aprendizaje y los resultados educativos."
+            },
+            {
+                id: 28,
+                question: "¿Qué relación encontró el estudio entre la asistencia a la educación preescolar y los resultados posteriores?",
+                options: [
+                    "No existe ninguna relación.",
+                    "Se asocia negativamente con los aprendizajes.",
+                    "Se asocia positivamente con los resultados de aprendizaje.",
+                    "Solamente beneficia a los estudiantes de sexto grado en Ciencias."
+                ],
+                correct: 2, // C
+                justification: "El estudio encontró una asociación positiva entre la asistencia a educación preescolar y los resultados de aprendizaje."
+            },
+            {
+                id: 29,
+                question: "¿Qué situación identificó el ERCE 2019 respecto a los estudiantes pertenecientes a pueblos originarios?",
+                options: [
+                    "Obtuvieron sistemáticamente mejores resultados que el resto de los estudiantes.",
+                    "Presentaron puntajes más bajos que sus pares que no pertenecen a pueblos originarios, incluso al comparar estudiantes de igual nivel socioeconómico.",
+                    "No presentaron diferencias en ninguna de las áreas evaluadas.",
+                    "Fueron excluidos de las evaluaciones regionales."
+                ],
+                correct: 1, // B
+                justification: "El informe identifica que los estudiantes de pueblos originarios presentan resultados sistemáticamente más bajos, incluso al comparar con igual nivel socioeconómico."
+            },
+            {
+                id: 30,
+                question: "De acuerdo con las conclusiones del ERCE 2019, ¿cuál debería ser una de las principales prioridades de los sistemas educativos de América Latina y el Caribe?",
+                options: [
+                    "Concentrarse exclusivamente en mejorar la infraestructura escolar.",
+                    "Fortalecer los aprendizajes fundamentales de Lectura y Matemática, promoviendo una educación inclusiva, equitativa y de calidad.",
+                    "Priorizar únicamente las evaluaciones estandarizadas.",
+                    "Reducir el tiempo destinado a la educación primaria."
+                ],
+                correct: 1, // B
+                justification: "El documento recomienda volver a centrar la atención en la educación primaria y fortalecer las competencias lectoras y numéricas de forma equitativa e inclusiva."
+            }
+        ];
+
+        // Estado Global de la Aplicación
+        let activeQuestions = [];
+        let userAnswers = {}; // Map questionIndex => selectedOptionIndex
+        let currentQuestionIndex = 0;
+        let reviewFilter = 'all';
+
+        // Algoritmo de Barajado (Fisher-Yates)
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        // Iniciar / Reiniciar Evaluación
+        function startQuiz() {
+            // Barajar preguntas aleatoriamente
+            activeQuestions = shuffleArray(rawQuestionBank);
+            userAnswers = {};
+            currentQuestionIndex = 0;
+
+            // Transición de vistas
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('quizScreen').classList.remove('hidden');
+
+            // Renderizar primera pregunta y rejilla
+            renderQuestion();
+            renderQuestionGrid();
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Renderizar la pregunta actual
+        function renderQuestion() {
+            const q = activeQuestions[currentQuestionIndex];
+            document.getElementById('currentQNum').innerText = currentQuestionIndex + 1;
+
+            // Badges
+            const isAnswered = userAnswers.hasOwnProperty(currentQuestionIndex);
+            const badge = document.getElementById('answeredBadge');
+            if (isAnswered) {
+                badge.innerText = "Respondida";
+                badge.className = "text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full border border-emerald-200";
+            } else {
+                badge.innerText = "Pendiente";
+                badge.className = "text-xs font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full";
+            }
+
+            // Texto Pregunta
+            document.getElementById('questionText').innerText = q.question;
+
+            // Opciones
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+
+            const optionLabels = ['A', 'B', 'C', 'D'];
+
+            q.options.forEach((optText, optIdx) => {
+                const isSelected = userAnswers[currentQuestionIndex] === optIdx;
+                
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.onclick = () => selectOption(optIdx);
+                
+                let baseClasses = "w-full text-left p-4 rounded-xl border-2 transition-all flex items-start gap-3.5 group ";
+                if (isSelected) {
+                    baseClasses += "border-blue-600 bg-blue-50/70 text-blue-900 shadow-sm";
+                } else {
+                    baseClasses += "border-slate-200 hover:border-blue-300 hover:bg-slate-50 text-slate-700";
+                }
+                btn.className = baseClasses;
+
+                btn.innerHTML = `
+                    <div class="w-7 h-7 rounded-lg border-2 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 transition-colors ${
+                        isSelected 
+                        ? 'border-blue-600 bg-blue-600 text-white' 
+                        : 'border-slate-300 text-slate-500 group-hover:border-blue-400 group-hover:text-blue-600'
+                    }">
+                        ${optionLabels[optIdx]}
+                    </div>
+                    <span class="text-sm font-medium leading-snug pt-0.5">${optText}</span>
+                `;
+
+                optionsContainer.appendChild(btn);
+            });
+
+            // Ajustar navegación botones
+            document.getElementById('btnPrev').disabled = (currentQuestionIndex === 0);
+
+            const isLast = (currentQuestionIndex === activeQuestions.length - 1);
+            if (isLast) {
+                document.getElementById('btnNext').classList.add('hidden');
+                document.getElementById('btnSubmitExam').classList.remove('hidden');
+            } else {
+                document.getElementById('btnNext').classList.remove('hidden');
+                document.getElementById('btnSubmitExam').classList.add('hidden');
+            }
+
+            renderQuestionGrid();
+        }
+
+        // Seleccionar Opción
+        function selectOption(optIdx) {
+            userAnswers[currentQuestionIndex] = optIdx;
+            renderQuestion();
+            updateProgress();
+        }
+
+        // Navegación
+        function nextQuestion() {
+            if (currentQuestionIndex < activeQuestions.length - 1) {
+                currentQuestionIndex++;
+                renderQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestion();
+            }
+        }
+
+        function jumpToQuestion(index) {
+            currentQuestionIndex = index;
+            renderQuestion();
+        }
+
+        // Actualizar barra de progreso y contadores
+        function updateProgress() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const total = activeQuestions.length;
+            const percent = Math.round((answeredCount / total) * 100);
+
+            document.getElementById('completionCounter').innerText = `${answeredCount} / ${total}`;
+            document.getElementById('progressBar').style.width = `${percent}%`;
+        }
+
+        // Renderizar Rejilla Lateral de 30 botones
+        function renderQuestionGrid() {
+            const grid = document.getElementById('gridQuestions');
+            grid.innerHTML = '';
+
+            for (let i = 0; i < activeQuestions.length; i++) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.onclick = () => jumpToQuestion(i);
+
+                const isCurrent = (i === currentQuestionIndex);
+                const isAnswered = userAnswers.hasOwnProperty(i);
+
+                let cls = "w-full aspect-square rounded-lg font-bold text-xs flex items-center justify-center transition border ";
+
+                if (isCurrent) {
+                    cls += "border-blue-600 bg-blue-600 text-white shadow-md ring-2 ring-blue-300 ring-offset-1";
+                } else if (isAnswered) {
+                    cls += "border-emerald-500 bg-emerald-50 text-emerald-700 hover:bg-emerald-100";
+                } else {
+                    cls += "border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100";
+                }
+
+                btn.className = cls;
+                btn.innerText = i + 1;
+                grid.appendChild(btn);
+            }
+        }
+
+        // Modal de confirmación genérico
+        function showModal({ title, message, iconClass, iconColor, confirmText, onConfirm }) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalMessage').innerText = message;
+            
+            const iconContainer = document.getElementById('modalIconContainer');
+            iconContainer.className = `w-12 h-12 rounded-full ${iconColor} flex items-center justify-center text-xl mb-4`;
+            iconContainer.innerHTML = `<i class="${iconClass}"></i>`;
+
+            const confirmBtn = document.getElementById('modalConfirmBtn');
+            confirmBtn.innerText = confirmText || "Confirmar";
+
+            // Handlers
+            const modal = document.getElementById('customModal');
+            modal.classList.remove('hidden');
+
+            const closeModal = () => modal.classList.add('hidden');
+
+            document.getElementById('modalCancelBtn').onclick = closeModal;
+            confirmBtn.onclick = () => {
+                closeModal();
+                if (onConfirm) onConfirm();
+            };
+        }
+
+        function confirmRestart() {
+            showModal({
+                title: "¿Reiniciar Evaluación?",
+                message: "Se perderán tus respuestas actuales y las 30 preguntas se volverán a barajar.",
+                iconClass: "fa-solid fa-rotate-right",
+                iconColor: "bg-blue-100 text-blue-600",
+                confirmText: "Sí, reiniciar",
+                onConfirm: startQuiz
+            });
+        }
+
+        function confirmFinishExam() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const total = activeQuestions.length;
+            const pending = total - answeredCount;
+
+            let msg = `Has respondido ${answeredCount} de 30 preguntas.`;
+            if (pending > 0) {
+                msg += ` Quedan ${pending} pregunta(s) sin responder que se contarán como incorrectas. ¿Deseas entregar ahora?`;
+            } else {
+                msg += ` ¿Deseas finalizar la evaluación y calcular tus resultados?`;
+            }
+
+            showModal({
+                title: "¿Finalizar y Evaluar?",
+                message: msg,
+                iconClass: pending > 0 ? "fa-solid fa-triangle-exclamation" : "fa-solid fa-circle-check",
+                iconColor: pending > 0 ? "bg-amber-100 text-amber-600" : "bg-emerald-100 text-emerald-600",
+                confirmText: "Finalizar Evaluación",
+                onConfirm: calculateAndShowResults
+            });
+        }
+
+        // Calcular Puntajes y Mostrar Solucionario
+        function calculateAndShowResults() {
+            let score = 0;
+            activeQuestions.forEach((q, idx) => {
+                if (userAnswers[idx] === q.correct) {
+                    score++;
+                }
+            });
+
+            const total = activeQuestions.length;
+            const percentage = Math.round((score / total) * 100);
+
+            // Determinar Nivel
+            let levelTitle = "";
+            let levelBadge = "";
+            let levelDesc = "";
+            let bannerBg = "";
+
+            if (percentage >= 90) {
+                levelTitle = "Nivel Excelente";
+                levelBadge = "Excelente (90% - 100%)";
+                levelDesc = "¡Felicitaciones! Ha demostrado un conocimiento riguroso e integral sobre los fundamentos, áreas evaluadas, metodologías y factores asociados del informe ERCE 2019 de la UNESCO.";
+                bannerBg = "bg-gradient-to-r from-emerald-600 via-teal-700 to-emerald-800";
+            } else if (percentage >= 70) {
+                levelTitle = "Nivel Bueno";
+                levelBadge = "Bueno (70% - 89%)";
+                levelDesc = "Buen desempeño. Posee una comprensión sólida de los resultados y prioridades educativas regionales, con pequeños detalles por afinar en el solucionario adjunto.";
+                bannerBg = "bg-gradient-to-r from-blue-600 via-indigo-700 to-blue-800";
+            } else if (percentage >= 50) {
+                levelTitle = "Nivel Regular";
+                levelBadge = "Regular (50% - 69%)";
+                levelDesc = "Comprensión elemental. Se sugiere revisar la justificación de las preguntas erróneas para profundizar en los datos cuantitativos y hallazgos clave del ERCE 2019.";
+                bannerBg = "bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700";
+            } else {
+                levelTitle = "Necesita Reforzamiento";
+                levelBadge = "Necesita Reforzamiento (0% - 49%)";
+                levelDesc = "Nivel inicial. Le recomendamos estudiar minuciosamente la justificación de cada respuesta al final de esta página para afianzar los conceptos fundamentales.";
+                bannerBg = "bg-gradient-to-r from-rose-600 via-red-700 to-rose-800";
+            }
+
+            // Inyectar en UI de Resultados
+            document.getElementById('resultBannerHeader').className = `p-6 sm:p-10 text-white text-center relative overflow-hidden ${bannerBg}`;
+            document.getElementById('badgeLevel').innerText = levelBadge;
+            document.getElementById('scoreText').innerText = `${score} / ${total} pts`;
+            document.getElementById('percentageText').innerText = `${percentage}%`;
+            document.getElementById('levelTitle').innerText = levelTitle;
+            document.getElementById('levelDescription').innerText = levelDesc;
+
+            // Cambiar pantallas
+            document.getElementById('quizScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+
+            // Renderizar Solucionario
+            renderReviewList();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Renderizar Lista de Solucionario Detallado
+        function renderReviewList() {
+            const container = document.getElementById('reviewContainer');
+            container.innerHTML = '';
+
+            const optionLabels = ['A', 'B', 'C', 'D'];
+
+            activeQuestions.forEach((q, idx) => {
+                const userChoice = userAnswers[idx];
+                const isCorrect = (userChoice === q.correct);
+                const isUnanswered = (userChoice === undefined);
+
+                // Filtrado
+                if (reviewFilter === 'correct' && !isCorrect) return;
+                if (reviewFilter === 'incorrect' && isCorrect) return;
+
+                const card = document.createElement('div');
+                card.className = `bg-white rounded-2xl p-5 sm:p-6 border shadow-sm transition ${
+                    isCorrect ? 'border-emerald-200/80 bg-emerald-50/10' : 'border-rose-200/80 bg-rose-50/10'
+                }`;
+
+                let statusBadge = '';
+                if (isCorrect) {
+                    statusBadge = `<span class="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full border border-emerald-200"><i class="fa-solid fa-circle-check"></i> Correcta (+1 pt)</span>`;
+                } else if (isUnanswered) {
+                    statusBadge = `<span class="inline-flex items-center gap-1 text-xs font-bold text-amber-700 bg-amber-100 px-3 py-1 rounded-full border border-amber-200"><i class="fa-solid fa-circle-minus"></i> Sin responder</span>`;
+                } else {
+                    statusBadge = `<span class="inline-flex items-center gap-1 text-xs font-bold text-rose-700 bg-rose-100 px-3 py-1 rounded-full border border-rose-200"><i class="fa-solid fa-circle-xmark"></i> Incorrecta</span>`;
+                }
+
+                let optionsHTML = '';
+                q.options.forEach((opt, optIdx) => {
+                    const isOptionCorrect = (optIdx === q.correct);
+                    const isOptionUserSelection = (optIdx === userChoice);
+
+                    let optStyle = "p-3 rounded-xl text-xs sm:text-sm font-medium border flex items-start gap-3 ";
+                    
+                    if (isOptionCorrect) {
+                        optStyle += "border-emerald-500 bg-emerald-100/70 text-emerald-950 font-semibold";
+                    } else if (isOptionUserSelection && !isCorrect) {
+                        optStyle += "border-rose-400 bg-rose-100/70 text-rose-950 line-through";
+                    } else {
+                        optStyle += "border-slate-100 bg-slate-50 text-slate-600 opacity-80";
+                    }
+
+                    optionsHTML += `
+                        <div class="${optStyle}">
+                            <span class="font-bold shrink-0 text-xs px-2 py-0.5 rounded bg-white/70 border border-black/5">
+                                ${optionLabels[optIdx]}
+                            </span>
+                            <span class="leading-snug">${opt}</span>
+                            ${isOptionCorrect ? '<span class="ml-auto text-emerald-700 font-bold text-xs bg-emerald-200/80 px-2 py-0.5 rounded shrink-0">Respuesta Correcta</span>' : ''}
+                            ${(isOptionUserSelection && !isCorrect) ? '<span class="ml-auto text-rose-700 font-bold text-xs bg-rose-200/80 px-2 py-0.5 rounded shrink-0">Tu Selección</span>' : ''}
+                        </div>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 pb-3 border-b border-slate-100">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Item #${idx + 1} de 30</span>
+                        <div>${statusBadge}</div>
+                    </div>
+                    
+                    <h4 class="text-slate-900 font-bold text-base sm:text-lg leading-snug mb-4">
+                        ${q.question}
+                    </h4>
+
+                    <div class="space-y-2 mb-5">
+                        ${optionsHTML}
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-slate-900 text-slate-200 text-xs sm:text-sm space-y-1 border border-slate-800">
+                        <div class="flex items-center gap-2 text-blue-400 font-bold text-xs uppercase tracking-wider">
+                            <i class="fa-solid fa-lightbulb"></i> Justificación Pedagógica Oficial (ERCE 2019):
+                        </div>
+                        <p class="text-slate-300 leading-relaxed font-normal pt-1">
+                            ${q.justification}
+                        </p>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        // Filtrado de Solucionario
+        function filterReview(type) {
+            reviewFilter = type;
+
+            document.getElementById('btnFilterAll').className = type === 'all' ? 'px-3 py-1.5 rounded-lg bg-slate-900 text-white font-bold' : 'px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 font-semibold hover:bg-slate-200';
+            document.getElementById('btnFilterCorrect').className = type === 'correct' ? 'px-3 py-1.5 rounded-lg bg-slate-900 text-white font-bold' : 'px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 font-semibold hover:bg-slate-200';
+            document.getElementById('btnFilterIncorrect').className = type === 'incorrect' ? 'px-3 py-1.5 rounded-lg bg-slate-900 text-white font-bold' : 'px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 font-semibold hover:bg-slate-200';
+
+            renderReviewList();
+        }
+
+        // Inicializar al cargar ventana
+        window.onload = function() {
+            // Listo para iniciar al pulsar "Comenzar"
+        };
+    </script>
+</body>
+</html>
